@@ -1,0 +1,57 @@
+Arts2{
+
+INCLUDE "general/general.arts"
+INCLUDE "general/continua.arts"
+INCLUDE "general/agendas.arts"
+INCLUDE "general/planet_earth.arts"
+
+Copy(abs_xsec_agenda, abs_xsec_agenda__noCIA)
+Copy(iy_main_agenda, iy_main_agenda__Emission)
+Copy(iy_surface_agenda, iy_surface_agenda__UseSurfaceRtprop)
+Copy(ppath_agenda, ppath_agenda__FollowSensorLosPath)
+Copy(ppath_step_agenda, ppath_step_agenda__GeometricPath)
+Copy(iy_space_agenda, iy_space_agenda__CosmicBackground)
+
+StringSet(iy_unit, "RJBT")
+IndexSet(atmosphere_dim, 1)
+IndexSet(stokes_dim, 1)
+VectorNLinSpace(f_grid, 1000, 10e9, 1000e9)
+sensorOff
+
+abs_speciesSet(species=["H2O"])
+ReadARTSCAT(filename="aer_3.6_lines_0_5THz.H2O.xml.gz",
+            normalization_option="None",
+            mirroring_option="None",
+            lineshapetype_option="LP",
+#            cutoff_option="None",
+            cutoff_option="ByLine",
+            cutoff_value=20e9)
+abs_lines_per_speciesCreateFromLines
+lbl_checkedCalc
+abs_xsec_agenda_checkedCalc
+Copy(propmat_clearsky_agenda, propmat_clearsky_agenda__OnTheFly)
+jacobianOff
+cloudboxOff
+MatrixCreate(profile)
+ReadXML(profile, "profile.xml")
+atm_fields_compactFromMatrix(gin1=profile,
+                             field_names=["T","z","abs_species-H2O", "ignore"])
+atm_fields_compactAddConstant(name="abs_species-O2",
+                              value=0.2095)
+atm_fields_compactAddConstant(name="abs_species-N2",
+                              value=0.7808)                             
+AtmFieldsAndParticleBulkPropFieldFromCompact
+MatrixSetConstant(z_surface, 1, 1, 80.0)
+MatrixSetConstant(sensor_pos, 1, 1, 100.0)
+MatrixSetConstant(sensor_los, 1, 1, 0.0)
+atmfields_checkedCalc(bad_partition_functions_ok=1)
+atmgeom_checkedCalc
+cloudbox_checkedCalc
+propmat_clearsky_agenda_checkedCalc
+sensor_checkedCalc
+
+# Run simulation and return value TODO include transmission, jacobian
+yCalc
+WriteXML(output_file_format="ascii", in=y)
+
+}
