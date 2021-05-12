@@ -20,9 +20,9 @@ sensorOff
 
 abs_speciesSet(species=["H2O"])
 abs_lineshapeDefine(shape="Lorentz",
-                    forefactor="no_norm",
+                    forefactor="VVW",
 #                    cutoff=-1)
-                    cutoff=20e9)
+                    cutoff=750e9)
 
 ReadXML(abs_lines, "aer_3.6_lines_0_5THz.H2O.xml.gz")
 abs_lines_per_speciesCreateFromLines

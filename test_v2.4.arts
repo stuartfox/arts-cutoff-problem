@@ -20,12 +20,12 @@ sensorOff
 
 abs_speciesSet(species=["H2O"])
 ReadARTSCAT(filename="aer_3.6_lines_0_5THz.H2O.xml.gz",
-            normalization_option="None",
+            normalization_option="VVW",
             mirroring_option="None",
             lineshapetype_option="LP",
 #            cutoff_option="None",
             cutoff_option="ByLine",
-            cutoff_value=20e9)
+            cutoff_value=750e9)
 abs_lines_per_speciesCreateFromLines
 lbl_checkedCalc
 abs_xsec_agenda_checkedCalc
