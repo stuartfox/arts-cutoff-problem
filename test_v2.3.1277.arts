@@ -20,12 +20,12 @@ sensorOff
 
 abs_speciesSet(species=["H2O"])
 abs_lineshapeDefine(shape="Lorentz",
-                    forefactor="VVW",
-#                    cutoff=-1)
-                    cutoff=750e9)
+                    forefactor="VVH",
+                    cutoff=-1)
 
-ReadXML(abs_lines, "aer_3.6_lines_0_5THz.H2O.xml.gz")
+ReadXML(abs_lines, "single_line_no_dp.H2O.xml.gz")
 abs_lines_per_speciesCreateFromLines
+#abs_lines_per_speciesAddMirrorLines
 abs_xsec_agenda_checkedCalc
 Copy(propmat_clearsky_agenda, propmat_clearsky_agenda__OnTheFly)
 jacobianOff

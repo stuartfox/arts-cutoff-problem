@@ -26,7 +26,7 @@ VectorNLinSpace(f_grid, 1000, 10e9, 1000e9)
 sensorOff
 
 abs_speciesSet(species=["H2O"])
-ReadARTSCAT(filename="single_line_no_dp.H2O.xml.gz",
+ReadARTSCAT(filename="single_line.H2O.xml.gz",
             normalization_option="VVH",
             mirroring_option="None",
             lineshapetype_option="LP",
